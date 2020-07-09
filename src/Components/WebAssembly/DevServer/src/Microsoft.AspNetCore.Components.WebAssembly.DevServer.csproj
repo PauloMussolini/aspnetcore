@@ -11,18 +11,19 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <!-- Set this to false because assemblies should not reference this assembly directly, (except for tests, of course). -->
     <IsProjectReferenceProvider>false</IsProjectReferenceProvider>
+    <UseAspNetCoreSharedRuntime>true</UseAspNetCoreSharedRuntime>
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Microsoft.AspNetCore" />
-    <Reference Include="Microsoft.AspNetCore.Diagnostics" />
     <Reference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
-    <Reference Include="Microsoft.AspNetCore.Components.Server" />
-    <Reference Include="Microsoft.AspNetCore.ResponseCompression" />
-    <Reference Include="Microsoft.AspNetCore" />
-
     <Compile Include="$(SharedSourceRoot)CommandLineUtils\**\*.cs" />
-    <Reference Include="Microsoft.Extensions.Hosting" />
+
+    <!--
+      We need this project to target the M.AspNetCore.App runtime to have the correct layout when packed.
+      To do this, we set UseAspNetCoreSharedRuntime=true and add this framework reference. One side effect of this is that
+      we are no longer building against projects in this repo, but against the runtime that the SDK carries.
+    -->
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <!-- Pack settings -->
